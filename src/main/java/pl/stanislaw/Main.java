@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static Game<Character> game = new Game<>(new Player<Character>("Player1", 'O'), new Player<Character>("Player2", 'X'), new Board<Character>('0'));
+    static Game<Character> game = new Game<>(new Player<Character>("Player1", 'O'), new Player<Character>("Player2", 'X'), new Board<Character>(' '));
 
     public static void main(String[] args) {
         System.out.println("Tic tac toe");
@@ -15,16 +15,21 @@ public class Main {
             printBoard();
             game.makeMove(data(),game.getPlayer1());
             if(game.playerWin(game.getPlayer1())){
+                printBoard();
                 System.out.println(game.getPlayer1()+ " WIN");
                 return;
             }
             printBoard();
             game.makeMove(data(), game.getPlayer2());
             if(game.playerWin(game.getPlayer2())){
+                printBoard();
                 System.out.println(game.getPlayer2()+ " WIN");
                 return;
             }
 
+        }
+        if(game.boardFull()){
+            System.out.println("Draw");
         }
     }
 
