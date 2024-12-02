@@ -53,7 +53,7 @@ public class Game<T> {
     public boolean boardFull() {
         for (List<T> row : board.getBoard()) {
             for (T field : row) {
-                if (field == null) {
+                if (field == " ") {
                     return false;
                 }
             }

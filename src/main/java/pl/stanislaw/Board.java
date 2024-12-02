@@ -6,7 +6,7 @@ import java.util.List;
 public class Board<T> {
 
     List<List<T>> board = new ArrayList<>(3);
-    private T emptySign;
+    private final T emptySign;
 
     public Board(T sign) {
         emptySign = sign;

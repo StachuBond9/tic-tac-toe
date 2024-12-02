@@ -9,26 +9,24 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Tic tac toe");
-
-
         while (!game.boardFull() || !game.playerWin(game.getPlayer1()) || !game.playerWin(game.getPlayer2())) {
             printBoard();
-            game.makeMove(data(),game.getPlayer1());
-            if(game.playerWin(game.getPlayer1())){
+            game.makeMove(data(), game.getPlayer1());
+            if (game.playerWin(game.getPlayer1())) {
                 printBoard();
-                System.out.println(game.getPlayer1()+ " WIN");
+                System.out.println(game.getPlayer1() + " WIN");
                 return;
             }
             printBoard();
             game.makeMove(data(), game.getPlayer2());
-            if(game.playerWin(game.getPlayer2())){
+            if (game.playerWin(game.getPlayer2())) {
                 printBoard();
-                System.out.println(game.getPlayer2()+ " WIN");
+                System.out.println(game.getPlayer2() + " WIN");
                 return;
             }
 
         }
-        if(game.boardFull()){
+        if (game.boardFull()) {
             System.out.println("Draw");
         }
     }
@@ -44,11 +42,11 @@ public class Main {
         return new int[]{x, y};
     }
 
-    private static void printBoard(){
+    private static void printBoard() {
         System.out.println("\n---------");
-        for(int i = 0; i <3; i++){
-            for(int j =0; j < 3; j++){
-                System.out.print("|"+ game.getBoard().get(i).get(j) + "|");
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print("|" + game.getBoard().get(i).get(j) + "|");
             }
             System.out.println("\n---------");
         }
