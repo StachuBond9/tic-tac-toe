@@ -19,6 +19,7 @@ public class GameFX {
     @FXML
     private Label label;
 
+
     public boolean isEndGame() {
         return endGame;
     }
@@ -30,25 +31,35 @@ public class GameFX {
         game.makeMove(data, currentPlayer);
         clicked.setText(currentPlayer.getType());
         clicked.setDisable(true);
+
         if (game.playerWin(currentPlayer)) {
             label.setText(currentPlayer.getName() + " WIN!!!");
-            disableBoard();
+            setDisable();
             endGame = true;
         } else if (currentPlayer == game.getPlayer1()) {
             currentPlayer = game.getPlayer2();
-        } else currentPlayer = game.getPlayer1();
-        if(game.boardFull()){
+            label.setText("MOVE : " + currentPlayer.getName());
+        } else {
+            currentPlayer = game.getPlayer1();
+            label.setText("MOVE : " + currentPlayer.getName());
+
+        }
+
+        if (game.boardFull()) {
             label.setText("DRAW");
+            board.setDisable(true);
             endGame = true;
-
         }
     }
 
-    public void disableBoard() {
-        for (int i =0; i < board.getChildren().size(); i++){
-            board.getChildren().get(i).setDisable(true);
+    private void setDisable(){
+        for (Node child : board.getChildren()) {
+            child.setDisable(true);
         }
     }
+
+
+
 
 
 }
