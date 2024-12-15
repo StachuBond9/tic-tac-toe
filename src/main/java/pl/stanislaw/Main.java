@@ -30,7 +30,6 @@ public class Main {
             System.out.println("Draw");
         }
     }
-
     private static int[] data() {
         int x, y;
         do {
@@ -38,9 +37,10 @@ public class Main {
             x = scanner1.nextInt();
             Scanner scanner2 = new Scanner(System.in);
             y = scanner2.nextInt();
-        } while (!game.fieldAvaiable(x, y));
+        } while (!game.fieldAvaiable(x, y)  );
         return new int[]{x, y};
     }
+
 
     private static void printBoard() {
         System.out.println("\n---------");

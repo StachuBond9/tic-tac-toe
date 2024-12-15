@@ -15,7 +15,7 @@ public class Game<T> {
         return player2;
     }
 
-    private Board<T> board;
+    private final Board<T> board;
 
     public List<List<T>> getBoard() {
         return board.getBoard();
@@ -43,10 +43,7 @@ public class Game<T> {
         if(hWin(player)){
             return true;
         }
-        if(vWin(player)){
-            return true;
-        }
-        return false;
+        return vWin(player);
     }
 
 

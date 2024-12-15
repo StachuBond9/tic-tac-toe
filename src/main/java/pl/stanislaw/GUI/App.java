@@ -19,13 +19,10 @@ public class App extends Application {
     @FXML
     public Label label;
 
-    private GameFX gameFX = new GameFX();
-    private boolean gameStarted =  false;
     private Stage primaryStage;
     @Override
     public void start(Stage stage) throws Exception {
         this.primaryStage = stage;
-        System.out.println("Inicjalizacja sceny w metodzie start()");
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setScene(scene);
@@ -41,6 +38,7 @@ public class App extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     public static void main(String[] args) {
