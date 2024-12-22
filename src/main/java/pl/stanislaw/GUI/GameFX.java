@@ -4,12 +4,16 @@ import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import pl.stanislaw.Board;
@@ -26,6 +30,8 @@ public class GameFX {
     private GridPane board;
     @FXML
     private Label label;
+    @FXML
+    private FlowPane window;
 
     @FXML
     public void btn(ActionEvent actionEvent) throws InterruptedException, IOException {
@@ -59,7 +65,6 @@ public class GameFX {
         }
 
 
-
     }
 
     private void setDisable() {
@@ -69,20 +74,28 @@ public class GameFX {
     }
 
     private void newGame(ActionEvent actionEvent) throws InterruptedException, IOException {
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(actionEvent1 -> {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
-            Parent root;
+        Button replay = new Button("Replay");
+        replay.setPrefWidth(board.getPrefWidth() / 4);
+        replay.setPrefHeight(board.getPrefHeight() / 4);
+        StackPane pane = new StackPane(replay);
+        pane.setPrefWidth(board.getPrefWidth());
+        pane.setPrefHeight(board.getPrefHeight());
+        pane.setAlignment(Pos.CENTER);
+        window.getChildren().remove(board);
+        replay.setAlignment(Pos.CENTER);
+        window.getChildren().add(pane);
+
+        replay.setOnAction(event -> {
             try {
-                root = fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
+                Parent root = fxmlLoader.load(); // Ładowanie nowego widoku
+                Stage primaryStage = (Stage) (replay.getScene().getWindow());
+                Scene scene = new Scene(root);
+                primaryStage.setScene(scene);
+                primaryStage.show(); // Wyświetlenie nowego widoku
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
-            Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
         });
-        pause.play();
     }
 }
