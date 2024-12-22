@@ -12,13 +12,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.jetbrains.annotations.NotNull;
 import pl.stanislaw.Board;
 import pl.stanislaw.Game;
 import pl.stanislaw.Player;
 
 import java.io.IOException;
-import java.util.EventObject;
+
 
 public class GameFX {
     private final Game<String> game = new Game<>(new Player<>("Player1", "O"), new Player<>("Player2", "X"), new Board<>(" "));
@@ -36,39 +35,44 @@ public class GameFX {
         clicked.setText(currentPlayer.getType());
         clicked.setDisable(true);
 
-         if (currentPlayer == game.getPlayer1()) {
-            currentPlayer = game.getPlayer2();
-            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
-        } else if(currentPlayer == game.getPlayer2()) {
-            currentPlayer = game.getPlayer1();
-            label.setText("MOVE : " + currentPlayer.getName()+ " " + currentPlayer.getType());
-
-        }
-
         if (game.playerWin(currentPlayer)) {
-            setDisable();
             label.setText(currentPlayer.getName() + " WIN!!!");
+            setDisable();
             newGame(actionEvent);
+            return;
         }
-        else if (game.boardFull()) {
+        if (game.boardFull()) {
             board.setDisable(true);
             label.setText("DRAW");
             newGame(actionEvent);
+            return;
         }
+
+
+        if (currentPlayer == game.getPlayer1()) {
+            currentPlayer = game.getPlayer2();
+            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
+        } else if (currentPlayer == game.getPlayer2()) {
+            currentPlayer = game.getPlayer1();
+            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
+
+        }
+
+
 
     }
 
-    private void setDisable(){
+    private void setDisable() {
         for (Node child : board.getChildren()) {
             child.setDisable(true);
         }
     }
 
-    private void newGame(@NotNull ActionEvent actionEvent) throws InterruptedException, IOException {
+    private void newGame(ActionEvent actionEvent) throws InterruptedException, IOException {
         PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished( actionEvent1 -> {
+        pause.setOnFinished(actionEvent1 -> {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
-            Parent root = null;
+            Parent root;
             try {
                 root = fxmlLoader.load();
             } catch (IOException e) {
