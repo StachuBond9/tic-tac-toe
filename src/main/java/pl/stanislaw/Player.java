@@ -17,11 +17,6 @@ public class Player<T> {
     public T getType() {
         return type;
     }
-
-    public int[] moveIndex(int x , int y){
-        return new int[]{x, y};
-    }
-
     @Override
     public String toString() {
         return name;
