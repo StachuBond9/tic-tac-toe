@@ -1,24 +1,9 @@
 package pl.stanislaw;
 
-public class Player<T> {
+public interface Player<T> {
 
-    private final String name;
-    private final T type;
+    public String getName();
+    public T getType();
+    public int[] move();
 
-    public Player(String name, T type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public T getType() {
-        return type;
-    }
-    @Override
-    public String toString() {
-        return name;
-    }
 }

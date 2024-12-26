@@ -18,13 +18,15 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import pl.stanislaw.Board;
 import pl.stanislaw.Game;
+import pl.stanislaw.HumanPlayer;
 import pl.stanislaw.Player;
 
 import java.io.IOException;
 
 
 public class GameFX {
-    private final Game<String> game = new Game<>(new Player<>("Player1", "O"), new Player<>("Player2", "X"), new Board<>(" "));
+
+    private final Game<String> game = new Game<>(new HumanPlayer<>("Player1", "O"), new HumanPlayer<>("Player2", "X"), new Board<>(" "));
     private Player<String> currentPlayer = game.getPlayer1();
     @FXML
     private GridPane board;

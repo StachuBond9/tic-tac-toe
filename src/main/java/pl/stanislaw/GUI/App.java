@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
@@ -18,6 +19,9 @@ public class App extends Application {
     public Button start;
     @FXML
     public Label label;
+    @FXML
+    public CheckBox botFlag;
+
 
     private Stage primaryStage;
     @Override
@@ -43,5 +47,9 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public void bot(ActionEvent actionEvent) {
+
     }
 }

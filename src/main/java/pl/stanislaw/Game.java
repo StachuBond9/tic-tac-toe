@@ -50,7 +50,7 @@ public class Game<T> {
     public boolean boardFull() {
         for (List<T> row : board.getBoard()) {
             for (T field : row) {
-                if (field == " ") {
+                if (field == board.getEmptySign()) {
                     return false;
                 }
             }
