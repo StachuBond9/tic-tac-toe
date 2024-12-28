@@ -28,7 +28,6 @@ public class Game<T> {
     }
 
     public boolean makeMove(int[] data, Player<T> player) {
-
         if (!fieldAvaiable(data[0], data[1])) {
             return false;
         }
