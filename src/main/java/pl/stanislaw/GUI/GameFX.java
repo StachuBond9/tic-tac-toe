@@ -3,6 +3,7 @@ package pl.stanislaw.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import pl.stanislaw.*;
 
@@ -45,8 +47,10 @@ public class GameFX {
         if (playerType.equals("Player X")) {
             makeBotMove();
         }
+        if (!checkForDraw() || !checkForWin()){
+            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
+        }
 
-        label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
     }
 
     @FXML
@@ -59,6 +63,7 @@ public class GameFX {
             clicked.setDisable(true);
 
             if (checkForWin() || checkForDraw()) {
+                newGame(actionEvent);
                 return;
             }
 
@@ -89,6 +94,7 @@ public class GameFX {
 
 
             if (checkForWin() || checkForDraw()) {
+                newGame(new ActionEvent());
                 return;
             }
 
@@ -122,19 +128,30 @@ public class GameFX {
         return false;
     }
 
+    private void newGame(ActionEvent actionEvent) throws InterruptedException, IOException {
+        Button replay = new Button("Replay");
+        replay.setPrefWidth(board.getPrefWidth() / 4);
+        replay.setPrefHeight(board.getPrefHeight() / 4);
+        StackPane pane = new StackPane(replay);
+        pane.setPrefWidth(board.getPrefWidth());
+        pane.setPrefHeight(board.getPrefHeight());
+        pane.setAlignment(Pos.CENTER);
+        window.getChildren().remove(board);
+        replay.setAlignment(Pos.CENTER);
+        window.getChildren().add(pane);
 
-    @FXML
-    public void newGame(ActionEvent actionEvent) {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
-            Parent root = fxmlLoader.load();
-            Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        replay.setOnAction(event -> {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
+                Parent root = fxmlLoader.load(); // Ładowanie nowego widoku
+                Stage primaryStage = (Stage) (replay.getScene().getWindow());
+                Scene scene = new Scene(root);
+                primaryStage.setScene(scene);
+                primaryStage.show(); // Wyświetlenie nowego widoku
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private Node getNodeByRowColumn(GridPane gridPane, int row, int column) {
