@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="bot in GUI">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/game.fxml" afterDir="false" />
-    </list>
+    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -342,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735382472594</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player">
+      <option name="closed" value="true" />
+      <created>1735472338436</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1735472338436</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -366,7 +369,8 @@
     <MESSAGE value="repaired end game glitch" />
     <MESSAGE value="bot in console" />
     <MESSAGE value="bot in GUI" />
-    <option name="LAST_COMMIT_MESSAGE" value="bot in GUI" />
+    <MESSAGE value="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player" />
+    <option name="LAST_COMMIT_MESSAGE" value="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tic_tac_toe$GameTest_playerWin.ic" NAME="GameTest.playerWin Coverage Results" MODIFIED="1731595453527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
