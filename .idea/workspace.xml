@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="bot in console">
+    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="bot in GUI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/game.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/menu.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,37 +85,37 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Application.App.executor": "Run",
-    "Application.GUIMain.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Main2.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.GameTest.playerWin.executor": "Run",
-    "Maven. [javafx:run].executor": "Run",
-    "Maven.App.javaFX.executor": "Run",
-    "Maven.tic-tac-toe [javafx:run].executor": "Run",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "#3 on faza3",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "temurin-21",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/stasw/OneDrive - XXI Liceum Ogólnoksztłcące im. św. Stanisława Kostki/Pulpit/Java/DEVS-MENTORING Projcets/tic-tac-toe/src/main/java",
-    "last_opened_file_path": "C:/Users/stasw/OneDrive - XXI Liceum Ogólnoksztłcące im. św. Stanisława Kostki/Pulpit/Java/WindowApp/CatchLetter",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.40490797",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Application.App.executor&quot;: &quot;Run&quot;,
+    &quot;Application.GUIMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main2.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.GameTest.playerWin.executor&quot;: &quot;Run&quot;,
+    &quot;Maven. [javafx:run].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.App.javaFX.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.tic-tac-toe [javafx:run].executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#3 on faza3&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;temurin-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/stasw/OneDrive - XXI Liceum Ogólnoksztłcące im. św. Stanisława Kostki/Pulpit/Java/DEVS-MENTORING Projcets/tic-tac-toe/src/main/java&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/stasw/OneDrive - XXI Liceum Ogólnoksztłcące im. św. Stanisława Kostki/Pulpit/Java/WindowApp/CatchLetter&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.40490797&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\stasw\OneDrive - XXI Liceum Ogólnoksztłcące im. św. Stanisława Kostki\Pulpit\Java\DEVS-MENTORING Projcets\tic-tac-toe" />
@@ -336,7 +334,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735242012889</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="bot in GUI">
+      <option name="closed" value="true" />
+      <created>1735382472594</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1735382472594</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -359,7 +365,8 @@
     <MESSAGE value="Game end" />
     <MESSAGE value="repaired end game glitch" />
     <MESSAGE value="bot in console" />
-    <option name="LAST_COMMIT_MESSAGE" value="bot in console" />
+    <MESSAGE value="bot in GUI" />
+    <option name="LAST_COMMIT_MESSAGE" value="bot in GUI" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tic_tac_toe$GameTest_playerWin.ic" NAME="GameTest.playerWin Coverage Results" MODIFIED="1731595453527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">

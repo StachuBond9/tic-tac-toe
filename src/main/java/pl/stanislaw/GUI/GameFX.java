@@ -11,7 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import pl.stanislaw.*;
 
@@ -28,6 +30,8 @@ public class GameFX {
     @FXML
     private FlowPane window;
 
+    @FXML
+    private HBox title;
     private String playerType;
 
     public void setGame(String type) {
@@ -130,16 +134,11 @@ public class GameFX {
 
     private void newGame(ActionEvent actionEvent) throws InterruptedException, IOException {
         Button replay = new Button("Replay");
-        replay.setPrefWidth(board.getPrefWidth() / 4);
-        replay.setPrefHeight(board.getPrefHeight() / 4);
-        StackPane pane = new StackPane(replay);
-        pane.setPrefWidth(board.getPrefWidth());
-        pane.setPrefHeight(board.getPrefHeight());
-        pane.setAlignment(Pos.CENTER);
-        window.getChildren().remove(board);
         replay.setAlignment(Pos.CENTER);
-        window.getChildren().add(pane);
-
+        replay.setFont(new Font(20));
+        replay.setPrefHeight(80);
+        replay.setPrefWidth(150);
+        title.getChildren().add(replay);
         replay.setOnAction(event -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));

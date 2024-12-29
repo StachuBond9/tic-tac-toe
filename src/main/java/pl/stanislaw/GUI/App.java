@@ -39,6 +39,9 @@ public class App extends Application {
     }
 
     public void startPressed(ActionEvent actionEvent) throws IOException{
+        if(plyerTyp == null){
+            plyerTyp ="a";
+        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
 
         GameFX controller = new GameFX();
