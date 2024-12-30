@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class GameFX {
     private Game<String> game;
-    private Player<String> currentPlayer;
+
 
     @FXML
     private GridPane board;
@@ -43,16 +43,14 @@ public class GameFX {
         } else {
             game = new Game<>(new HumanPlayer<>("Player1", "O"), new HumanPlayer<>("Player2", "X"), new Board<>(" "));
         }
-        currentPlayer = game.getPlayer1();
     }
 
     public void initialize() throws IOException, InterruptedException {
-
         if (playerType.equals("Player X")) {
             makeBotMove();
         }
         if (!checkForDraw() || !checkForWin()){
-            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
+            label.setText("MOVE : " + game.getCurrentPlayer().getName() + " " + game.getCurrentPlayer().getType());
         }
 
     }
@@ -62,8 +60,8 @@ public class GameFX {
         try {
             Button clicked = (Button) actionEvent.getSource();
             int[] data = {GridPane.getRowIndex(clicked), GridPane.getColumnIndex(clicked)};
-            game.makeMove(data, currentPlayer);
-            clicked.setText(currentPlayer.getType());
+            game.makeMove(data, game.getCurrentPlayer());
+            clicked.setText(game.getCurrentPlayer().getType());
             clicked.setDisable(true);
 
             if (checkForWin() || checkForDraw()) {
@@ -74,7 +72,7 @@ public class GameFX {
 
             changePlayer();
 
-            if (currentPlayer instanceof BotPlayer) {
+            if (game.getCurrentPlayer() instanceof BotPlayer) {
                 makeBotMove();
             }
         } catch (Exception e) {
@@ -86,13 +84,13 @@ public class GameFX {
         try {
             int[] xy;
             do {
-                xy = currentPlayer.move();
+                xy = game.getCurrentPlayer().move(game);
             } while (!game.fieldAvaiable(xy[0], xy[1]));
 
-            game.makeMove(xy, currentPlayer);
+            game.makeMove(xy, game.getCurrentPlayer());
             Node botMoveNode = getNodeByRowColumn(board, xy[0], xy[1]);
             if (botMoveNode instanceof Button) {
-                ((Button) botMoveNode).setText(currentPlayer.getType());
+                ((Button) botMoveNode).setText(game.getCurrentPlayer().getType());
                 ((Button) botMoveNode).setDisable(true);
             }
 
@@ -110,13 +108,13 @@ public class GameFX {
 
 
     private void changePlayer() {
-        currentPlayer = (currentPlayer == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1();
-        label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
+        game.setCurrentPlayer((game.getCurrentPlayer() == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
+        label.setText("MOVE : " + game.getCurrentPlayer().getName() + " " + game.getCurrentPlayer().getType());
     }
 
     private boolean checkForWin() {
-        if (game.playerWin(currentPlayer)) {
-            label.setText(currentPlayer.getName() + " WIN!!!");
+        if (game.playerWin(game.getCurrentPlayer())) {
+            label.setText(game.getCurrentPlayer().getName() + " WIN!!!");
             setDisable();
             return true;
         }

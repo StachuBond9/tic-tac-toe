@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player" />
+    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/BotPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/GUI/GameFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/HumanPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/Player.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -256,8 +265,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.App" />
         <item itemvalue="JUnit.GameTest.playerWin" />
         <item itemvalue="JUnit.GameTest.playerWin" />
         <item itemvalue="Application.Main" />
@@ -345,7 +354,15 @@
       <option name="project" value="LOCAL" />
       <updated>1735472338436</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player">
+      <option name="closed" value="true" />
+      <created>1735472707059</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1735472707059</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

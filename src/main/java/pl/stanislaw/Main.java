@@ -8,14 +8,14 @@ import java.util.Scanner;
 public class Main {
     static Game<Character> game;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         System.out.println("Tic tac toe");
         System.out.println("AI( Y ) or 2 Players(N)");
         Scanner scanner = new Scanner(System.in);
         char gameTyp = scanner.next().charAt(0);
 
         if (gameTyp == 'N') {
-            game = new Game<>(new HumanPlayer<>("Player 1", 'O'), new HumanPlayer<>("Player 2", 'O'), new Board<>(' '));
+            game = new Game<>(new HumanPlayer<>("Player 1", 'O'), new HumanPlayer<>("Player 2", 'X'), new Board<>(' '));
         } else if (gameTyp == 'Y') {
             System.out.println("Player O ( 1 ) or Player X ( 2 )");
             Scanner scanner1 = new Scanner(System.in);
@@ -34,11 +34,11 @@ public class Main {
         while (!game.boardFull() || !game.playerWin(game.getPlayer1()) || !game.playerWin(game.getPlayer2())) {
 
             printBoard();
-
+            System.out.println(game.getPlayer1() + " move");
             if (game.getPlayer1().getName().equals("Bot Player")) {
                 int[] xy;
                 do {
-                    xy = game.getPlayer1().move();
+                    xy = game.getPlayer1().move(game);
                 } while (!game.fieldAvaiable(xy[0], xy[1]));
 
                 game.makeMove(xy, game.getPlayer1());
@@ -54,17 +54,19 @@ public class Main {
 
             if (game.boardFull()) {
                 System.out.println("Draw");
+                return;
             }
-            printBoard();
 
+            printBoard();
+            System.out.println(game.getPlayer2() + " move");
 
             if (game.getPlayer2().getName().equals("Bot Player")) {
                 int[] xy;
                 do {
-                    xy = game.getPlayer2().move();
+                    xy = game.getPlayer2().move(game);
                 } while (!game.fieldAvaiable(xy[0], xy[1]));
-
                 game.makeMove(xy, game.getPlayer2());
+
             } else {
                 game.makeMove(data(), game.getPlayer2());
             }
@@ -78,6 +80,7 @@ public class Main {
 
             if (game.boardFull()) {
                 System.out.println("Draw");
+                return;
             }
         }
     }

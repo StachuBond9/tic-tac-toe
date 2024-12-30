@@ -20,7 +20,8 @@ public class HumanPlayer<T> implements Player<T>{
     }
 
     @Override
-    public int[] move() {
+    public int[] move(Game<T> game) {
+        System.out.println(game.getBoard());
         return null;
     }
 

@@ -2,11 +2,19 @@ package pl.stanislaw;
 
 import java.util.List;
 
-public class Game<T> {
+public class Game<T> implements Cloneable {
 
-    private final Player<T> player1;
-    private final Player<T> player2;
+    private Player<T> player1;
+    private Player<T> player2;
+    private Player<T> currentPlayer;
+    private final Board<T> board;
 
+    public Game(Player<T> player1, Player<T> player2, Board<T> board) {
+        this.player1 = player1;
+        this.player2 = player2;
+        this.board = board;
+        currentPlayer = player1;
+    }
     public Player<T> getPlayer1() {
         return player1;
     }
@@ -15,23 +23,28 @@ public class Game<T> {
         return player2;
     }
 
-    private final Board<T> board;
+    public Player<T> getCurrentPlayer(){
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player<T> currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
 
     public List<List<T>> getBoard() {
         return board.getBoard();
     }
 
-    public Game(Player<T> player1, Player<T> player2, Board<T> board) {
-        this.player1 = player1;
-        this.player2 = player2;
-        this.board = board;
-    }
+
 
     public boolean makeMove(int[] data, Player<T> player) {
+
         if (!fieldAvaiable(data[0], data[1])) {
             return false;
         }
         board.move(data[0], data[1], player);
+
         return true;
     }
 
@@ -116,5 +129,20 @@ public class Game<T> {
         return fields == 3;
     }
 
+
+    @Override
+    public Game<T> clone() throws CloneNotSupportedException {
+
+        Player<T> clonedPlayer1 = player1;
+        Player<T> clonedPlayer2 = player2;
+
+        Board<T> clonedBoard = board.clone();
+
+        Game<T> clonedGame = new Game<>(clonedPlayer1, clonedPlayer2, clonedBoard);
+
+        clonedGame.setCurrentPlayer(currentPlayer);
+
+        return clonedGame;
+    }
 
 }
