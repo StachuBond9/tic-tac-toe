@@ -24,8 +24,6 @@ public class BotPlayer<T> implements Player<T> {
 
     @Override
     public int[] move(Game<T> game) throws CloneNotSupportedException {
-        System.out.println(getBestMove(game)[0] + " " + getBestMove(game)[1]);
-        System.out.println(game.getBoard());
         return getBestMove(game);
     }
 
@@ -34,12 +32,27 @@ public class BotPlayer<T> implements Player<T> {
     }
 
     private int value(Game<T> game, Player<T> currentPlayer) {
+        if(currentPlayer.getName().equals(name)){
+            if (game.playerWin(currentPlayer)) {
+                //System.out.println("wynik 1");
+                return 1;
+            } else if (game.boardFull()) {
+                //System.out.println("wynik 0");
+                return 0;
+            } else {
+                //System.out.println("wynik -1");
+                return -1;
+            }
+        }
         if (game.playerWin(currentPlayer)) {
-            return 1;
+            //System.out.println("wynik -1k");
+            return -1;
         } else if (game.boardFull()) {
+            //System.out.println("wynik 0k");
             return 0;
         } else {
-            return -1;
+            //System.out.println("wynik 1k");
+            return 1;
         }
     }
 
@@ -59,43 +72,43 @@ public class BotPlayer<T> implements Player<T> {
     private Game<T> result(Game<T> game, int x, int y, Player<T> currentPlayer) throws CloneNotSupportedException {
         Game<T> newGame = game.clone();
         newGame.makeMove(new int[]{x, y}, currentPlayer);
+        System.out.println(newGame.getBoard());
+        //System.out.println(x + " " + y);
         return newGame;
     }
 
 
     private int minMax(Game<T> game) throws CloneNotSupportedException {
-        if(terminal(game)){
+        if (terminal(game)) {
+            //System.out.println("Gra zakończona. " + game.getCurrentPlayer().getName() + " " + (game.boardFull() ? "Remis" : "Wygrana"));
             return value(game, game.getCurrentPlayer());
         }
 
-        if(game.getCurrentPlayer().getName().equals(name))
-        {
+        if (game.getCurrentPlayer().getName().equals(name)) {
             int maxValue = Integer.MIN_VALUE;
 
-            ArrayList<ArrayList<Integer>> avaiableMoves = actions(game);
-            for (ArrayList<Integer> avaiableMove : avaiableMoves) {
-                Game<T> newGame = result(game.clone(), avaiableMove.get(0), avaiableMove.get(1), game.getCurrentPlayer());
-                int value = minMax(newGame);
-
-                maxValue = Math.max(maxValue, value);
-
+            ArrayList<ArrayList<Integer>> availableMoves = actions(game);
+            for (ArrayList<Integer> availableMove : availableMoves) {
+                //System.out.println("Evaluating move for bot: (" + availableMove.get(0) + ", " + availableMove.get(1) + ")");
+                Game<T> newGame = result(game.clone(), availableMove.get(0), availableMove.get(1), game.getCurrentPlayer());
+                int moveValue = minMax(newGame);
+                maxValue = Math.max(maxValue, moveValue);
             }
             return maxValue;
         } else {
             int minValue = Integer.MAX_VALUE;
 
-            ArrayList<ArrayList<Integer>> avaiableMoves = actions(game);
-            for (ArrayList<Integer> move : avaiableMoves) {
+            ArrayList<ArrayList<Integer>> availableMoves = actions(game);
+            for (ArrayList<Integer> move : availableMoves) {
+                //System.out.println("Evaluating move for human: (" + move.get(0) + ", " + move.get(1) + ")");
                 Game<T> newGame = result(game.clone(), move.get(0), move.get(1), game.getCurrentPlayer());
-                int value = minMax(newGame);
-
-                minValue = Math.min(minValue, value);
-
+                int moveValue = minMax(newGame);
+                minValue = Math.min(minValue, moveValue);
             }
             return minValue;
         }
-
     }
+
 
     public int[] getBestMove(Game<T> game) throws CloneNotSupportedException {
         int bestValue = Integer.MIN_VALUE;
@@ -103,6 +116,7 @@ public class BotPlayer<T> implements Player<T> {
 
         ArrayList<ArrayList<Integer>> availableMoves = actions(game);
 
+        //System.out.println("Stany gry ");
         for (ArrayList<Integer> move : availableMoves) {
 
             Game<T> newGame = game.clone();
@@ -114,11 +128,16 @@ public class BotPlayer<T> implements Player<T> {
                 bestValue = moveValue;
                 bestMoves.clear();
                 bestMoves.add(new int[]{move.get(0), move.get(1)});
+                System.out.println(move.get(0) + " " + move.get(1));
             } else if (moveValue == bestValue) {
                 bestMoves.add(new int[]{move.get(0), move.get(1)});
+                System.out.println(move.get(0) + " " + move.get(1));
             }
+
         }
-        return bestMoves.get(0);
+        Random random = new Random();
+        int i = random.nextInt(bestMoves.size());
+        return bestMoves.get(i);
     }
 
 

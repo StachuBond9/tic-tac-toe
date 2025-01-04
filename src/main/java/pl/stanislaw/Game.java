@@ -132,6 +132,7 @@ public class Game<T> implements Cloneable {
 
     @Override
     public Game<T> clone() throws CloneNotSupportedException {
+        Game<T> tGame = (Game<T>) super.clone();
 
         Player<T> clonedPlayer1 = player1;
         Player<T> clonedPlayer2 = player2;
