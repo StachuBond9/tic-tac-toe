@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="repaired MinMax algorithm">
+    <list default="true" id="4f32bb1a-8824-4368-81e2-162409497fba" name="Changes" comment="repaired MinMax algorithm part 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pl/stanislaw/BotPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pl/stanislaw/BotPlayer.java" afterDir="false" />
     </list>
@@ -372,7 +372,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736010083536</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="repaired MinMax algorithm part 2">
+      <option name="closed" value="true" />
+      <created>1736160839747</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1736160839747</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -399,7 +407,8 @@
     <MESSAGE value="repaired GUI &#10; - replay button&#10; - when start button pressed dfault option is 2 player" />
     <MESSAGE value="new MinMax Bot" />
     <MESSAGE value="repaired MinMax algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="repaired MinMax algorithm" />
+    <MESSAGE value="repaired MinMax algorithm part 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="repaired MinMax algorithm part 2" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tic_tac_toe$GameTest_playerWin.ic" NAME="GameTest.playerWin Coverage Results" MODIFIED="1731595453527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
