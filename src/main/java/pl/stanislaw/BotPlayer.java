@@ -37,14 +37,14 @@ public class BotPlayer<T> implements Player<T> {
                 //System.out.println("wynik 1");
                 return 1;
             } else if (game.boardFull()) {
-                //System.out.println("wynik 0");
+               // System.out.println("wynik 0");
                 return 0;
             } else {
                 //System.out.println("wynik -1");
                 return -1;
             }
         }
-        if (game.playerWin(currentPlayer)) {
+        else if (game.playerWin(currentPlayer)) {
             //System.out.println("wynik -1k");
             return -1;
         } else if (game.boardFull()) {
@@ -72,13 +72,14 @@ public class BotPlayer<T> implements Player<T> {
     private Game<T> result(Game<T> game, int x, int y, Player<T> currentPlayer) throws CloneNotSupportedException {
         Game<T> newGame = game.clone();
         newGame.makeMove(new int[]{x, y}, currentPlayer);
-        System.out.println(newGame.getBoard());
-        //System.out.println(x + " " + y);
+       // System.out.println(newGame.getBoard());
+       // System.out.println(x + " " + y);
         return newGame;
     }
 
 
     private int minMax(Game<T> game) throws CloneNotSupportedException {
+        changePlayer(game);
         if (terminal(game)) {
             //System.out.println("Gra zakończona. " + game.getCurrentPlayer().getName() + " " + (game.boardFull() ? "Remis" : "Wygrana"));
             return value(game, game.getCurrentPlayer());
@@ -97,7 +98,6 @@ public class BotPlayer<T> implements Player<T> {
             return maxValue;
         } else {
             int minValue = Integer.MAX_VALUE;
-
             ArrayList<ArrayList<Integer>> availableMoves = actions(game);
             for (ArrayList<Integer> move : availableMoves) {
                 //System.out.println("Evaluating move for human: (" + move.get(0) + ", " + move.get(1) + ")");
@@ -110,13 +110,13 @@ public class BotPlayer<T> implements Player<T> {
     }
 
 
+
     public int[] getBestMove(Game<T> game) throws CloneNotSupportedException {
         int bestValue = Integer.MIN_VALUE;
         List<int[]> bestMoves = new ArrayList<>();
 
         ArrayList<ArrayList<Integer>> availableMoves = actions(game);
 
-        //System.out.println("Stany gry ");
         for (ArrayList<Integer> move : availableMoves) {
 
             Game<T> newGame = game.clone();
@@ -129,9 +129,6 @@ public class BotPlayer<T> implements Player<T> {
                 bestMoves.clear();
                 bestMoves.add(new int[]{move.get(0), move.get(1)});
                 System.out.println(move.get(0) + " " + move.get(1));
-            } else if (moveValue == bestValue) {
-                bestMoves.add(new int[]{move.get(0), move.get(1)});
-                System.out.println(move.get(0) + " " + move.get(1));
             }
 
         }
@@ -140,6 +137,9 @@ public class BotPlayer<T> implements Player<T> {
         return bestMoves.get(i);
     }
 
+    private void changePlayer(Game<T> game) {
+        game.setCurrentPlayer((game.getCurrentPlayer() == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
+    }
 
     @Override
     public String toString() {
