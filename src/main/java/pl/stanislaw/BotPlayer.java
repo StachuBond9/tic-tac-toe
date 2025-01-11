@@ -31,96 +31,65 @@ public class BotPlayer<T> implements Player<T> {
         return game.boardFull() || game.playerWin(game.getPlayer1()) || game.playerWin(game.getPlayer2());
     }
 
-    private int value(Game<T> game, Player<T> currentPlayer) {
-        if(currentPlayer.getName().equals(name)){
-            if (game.playerWin(currentPlayer)) {
-                //System.out.println("wynik 1");
-                return 1;
-            } else if (game.boardFull()) {
-               // System.out.println("wynik 0");
-                return 0;
-            } else {
-                //System.out.println("wynik -1");
-                return -1;
-            }
+    private int value(Game<T> game) {
+        if (game.playerWin(game.getPlayer1())) {
+            return (game.getPlayer1().getName().equals(name)) ? 1 : -1;
         }
-        else if (game.playerWin(currentPlayer)) {
-            //System.out.println("wynik -1k");
-            return -1;
-        } else if (game.boardFull()) {
-            //System.out.println("wynik 0k");
-            return 0;
-        } else {
-            //System.out.println("wynik 1k");
-            return 1;
+        if (game.playerWin(game.getPlayer2())) {
+            return (game.getPlayer2().getName().equals(name)) ? 1 : -1;
         }
+        return 0;
     }
 
-    private ArrayList<ArrayList<Integer>> actions(Game<T> game){
-       ArrayList<ArrayList<Integer>> avaiableFields =  new ArrayList<>();
-        for(int i = 0; i< 3; i++){
-            for(int j = 0; j < 3; j++){
-                if(game.fieldAvaiable(i, j)){
-                    avaiableFields.add(new ArrayList<>(List.of(i,j)));
+    private ArrayList<ArrayList<Integer>> actions(Game<T> game) {
+        ArrayList<ArrayList<Integer>> availableFields = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (game.fieldAvaiable(i, j)) {
+                    availableFields.add(new ArrayList<>(List.of(i, j)));
                 }
             }
         }
-        return avaiableFields;
-
+        return availableFields;
     }
 
     private Game<T> result(Game<T> game, int x, int y, Player<T> currentPlayer) throws CloneNotSupportedException {
         Game<T> newGame = game.clone();
         newGame.makeMove(new int[]{x, y}, currentPlayer);
-       // System.out.println(newGame.getBoard());
-       // System.out.println(x + " " + y);
         return newGame;
     }
 
-
     private int minMax(Game<T> game) throws CloneNotSupportedException {
-        changePlayer(game);
         if (terminal(game)) {
-            //System.out.println("Gra zakończona. " + game.getCurrentPlayer().getName() + " " + (game.boardFull() ? "Remis" : "Wygrana"));
-            return value(game, game.getCurrentPlayer());
+            return value(game);
         }
 
         if (game.getCurrentPlayer().getName().equals(name)) {
             int maxValue = Integer.MIN_VALUE;
-
-            ArrayList<ArrayList<Integer>> availableMoves = actions(game);
-            for (ArrayList<Integer> availableMove : availableMoves) {
-                //System.out.println("Evaluating move for bot: (" + availableMove.get(0) + ", " + availableMove.get(1) + ")");
-                Game<T> newGame = result(game.clone(), availableMove.get(0), availableMove.get(1), game.getCurrentPlayer());
-                int moveValue = minMax(newGame);
-                maxValue = Math.max(maxValue, moveValue);
+            for (ArrayList<Integer> move : actions(game)) {
+                Game<T> newGame = result(game, move.get(0), move.get(1), game.getCurrentPlayer());
+                changePlayer(newGame);
+                maxValue = Math.max(maxValue, minMax(newGame));
             }
             return maxValue;
         } else {
             int minValue = Integer.MAX_VALUE;
-            ArrayList<ArrayList<Integer>> availableMoves = actions(game);
-            for (ArrayList<Integer> move : availableMoves) {
-                //System.out.println("Evaluating move for human: (" + move.get(0) + ", " + move.get(1) + ")");
-                Game<T> newGame = result(game.clone(), move.get(0), move.get(1), game.getCurrentPlayer());
-                int moveValue = minMax(newGame);
-                minValue = Math.min(minValue, moveValue);
+            for (ArrayList<Integer> move : actions(game)) {
+                Game<T> newGame = result(game, move.get(0), move.get(1), game.getCurrentPlayer());
+                changePlayer(newGame);
+                minValue = Math.min(minValue, minMax(newGame));
             }
             return minValue;
         }
     }
 
-
-
     public int[] getBestMove(Game<T> game) throws CloneNotSupportedException {
         int bestValue = Integer.MIN_VALUE;
         List<int[]> bestMoves = new ArrayList<>();
 
-        ArrayList<ArrayList<Integer>> availableMoves = actions(game);
-
-        for (ArrayList<Integer> move : availableMoves) {
-
-            Game<T> newGame = game.clone();
-            newGame.makeMove(new int[]{move.get(0), move.get(1)}, game.getCurrentPlayer());
+        for (ArrayList<Integer> move : actions(game)) {
+            Game<T> newGame = result(game, move.get(0), move.get(1), game.getCurrentPlayer());
+            changePlayer(newGame);
 
             int moveValue = minMax(newGame);
 
@@ -128,22 +97,21 @@ public class BotPlayer<T> implements Player<T> {
                 bestValue = moveValue;
                 bestMoves.clear();
                 bestMoves.add(new int[]{move.get(0), move.get(1)});
-                System.out.println(move.get(0) + " " + move.get(1));
             }
-
         }
+
         Random random = new Random();
-        int i = random.nextInt(bestMoves.size());
-        return bestMoves.get(i);
+        return bestMoves.get(random.nextInt(bestMoves.size()));
     }
 
     private void changePlayer(Game<T> game) {
-        game.setCurrentPlayer((game.getCurrentPlayer() == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
+        game.setCurrentPlayer(
+                (game.getCurrentPlayer() == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1()
+        );
     }
 
     @Override
     public String toString() {
         return name;
     }
-
 }
