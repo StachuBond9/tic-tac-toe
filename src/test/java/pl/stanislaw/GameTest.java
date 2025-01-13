@@ -3,7 +3,7 @@ package pl.stanislaw;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.*;
 
 class GameTest {
 
@@ -22,56 +22,98 @@ class GameTest {
 
         //then
         Assertions.assertTrue(game.playerWin(player1));
-
     }
 
     @Test
-    void botOGame() throws CloneNotSupportedException {
-        BotPlayer<Character> player1 = new BotPlayer<>('O');
-        HumanPlayer<Character> player2 = new HumanPlayer<>("Player", 'X');
+    void botOWork() throws CloneNotSupportedException {
+        //given
+        Player<Character> player1 = new BotPlayer<>('O');
+        Player<Character> player2 = new HumanPlayer<>("Player2", 'X');
         Board<Character> board = new Board<>(' ');
         Game<Character> game = new Game<>(player1, player2, board);
-        Assertions.assertTrue(analyzeGame(game) > 0.9);
 
+
+        //when then
+        Assertions.assertTrue(makeAllGame(game));
     }
 
-    private float[] allMoveMaker(Game<Character> game) throws CloneNotSupportedException {
-        float bWin = 0;
-        float hWin = 0;
-        float draw = 0;
+    private boolean makeAllGame(Game<Character> game) throws CloneNotSupportedException {
+        int bWin = 0;
+        int draw = 0;
+        int hWin = 0;
 
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                if (game.fieldAvaiable(x, y)) {
-                    Game<Character> newGame = game.clone();
-                    newGame.makeMove(new int[]{x, y}, newGame.getPlayer1());
-                    if (newGame.playerWin(newGame.getPlayer1())) {
-                        bWin++;
-                    } else if (newGame.playerWin(newGame.getPlayer2())) {
-                        hWin++;
-                    } else if (newGame.boardFull()) {
-                        draw++;
-                    } else {
-                        float[] result = allMoveMaker(newGame);
-                        bWin += result[0];
-                        hWin += result[1];
-                        draw += result[2];
-                    }
+        List<List<int[]>> moves = TicTacToeMoves.generateAllMoveCombinations(5);
+
+        Set<List<int[]>> invalidPrefixes = new HashSet<>();
+
+        int i = 0;
+        for (List<int[]> move : moves) {
+            Game<Character> newGame = game.clone();
+            boolean isValid = true;
+            for (int j = 1; j <= move.size(); j++) {
+                List<int[]> prefix = move.subList(0, j);
+                if (invalidPrefixes.contains(prefix)) {
+                    isValid = false;
+                    break;
                 }
             }
+
+            if (!isValid) {
+                continue;
+            }
+
+            for (int j = 0; j < move.size(); j++) {
+                int[] ints = move.get(j);
+
+
+                newGame.makeMove(newGame.getPlayer1().move(newGame), newGame.getPlayer1());
+                System.out.println("Bot Move " + newGame.getBoard());
+
+                if (newGame.playerWin(newGame.getPlayer1())) {
+                    bWin++;
+                    break;
+                } else if (newGame.boardFull()) {
+                    draw++;
+                    break;
+                }
+
+                System.out.println(ints[0] + " " + ints[1]);
+
+                if (newGame.fieldAvaiable(ints[0], ints[1])) {
+                    newGame.makeMove(ints, newGame.getPlayer2());
+                } else {
+                    System.out.println("Przerwij - pole zajęte");
+
+                    invalidPrefixes.add(new ArrayList<>(move.subList(0, j + 1)));
+                    isValid = false;
+                    break;
+                }
+
+                System.out.println("Player move " + newGame.getBoard());
+
+                if (newGame.playerWin(newGame.getPlayer2())) {
+                    hWin++;
+                    break;
+                } else if (newGame.boardFull()) {
+                    draw++;
+                    break;
+                }
+            }
+
+            if (isValid) {
+                i++;
+            }
+
+            System.out.println("Bot : " + bWin);
+            System.out.println("Draw : " + draw);
+            System.out.println("Human : " + hWin);
+            System.out.println(i);
         }
 
-        return new float[]{bWin, hWin, draw};
-    }
-
-    public float analyzeGame(Game<Character> game) throws CloneNotSupportedException {
-        float[] results = allMoveMaker(game);
-
-        float totalGames = results[0] + results[1] + results[2];  // 9!
-        System.out.println("Bot win (procent): " + (results[0] / totalGames) * 100 + "%");
-        System.out.println("Human win (procent): " + (results[1] / totalGames) * 100 + "%");
-        System.out.println("Draw (procent): " + (results[2] / totalGames) * 100 + "%");
-        return ((results[0] / totalGames) + (results[2] / totalGames));
+        System.out.println("Bot : " + bWin);
+        System.out.println("Draw : " + draw);
+        System.out.println("Human : " + hWin);
+        return bWin/ i == 1;
     }
 
 

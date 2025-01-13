@@ -15,6 +15,8 @@ public class Game<T> implements Cloneable {
         this.board = board;
         currentPlayer = player1;
     }
+
+
     public Player<T> getPlayer1() {
         return player1;
     }
@@ -34,6 +36,9 @@ public class Game<T> implements Cloneable {
 
     public List<List<T>> getBoard() {
         return board.getBoard();
+    }
+    public Board<T> getBoardC(){
+        return board;
     }
 
 

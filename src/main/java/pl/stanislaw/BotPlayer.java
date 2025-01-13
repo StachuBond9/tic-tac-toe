@@ -100,8 +100,9 @@ public class BotPlayer<T> implements Player<T> {
             }
         }
 
-        Random random = new Random();
-        return bestMoves.get(random.nextInt(bestMoves.size()));
+        int[] ints = bestMoves.get(0);
+        System.out.println(ints[0] + " " + ints[1]);
+        return ints;
     }
 
     private void changePlayer(Game<T> game) {
