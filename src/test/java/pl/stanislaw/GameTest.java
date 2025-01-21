@@ -4,6 +4,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 class GameTest {
 
@@ -38,82 +41,99 @@ class GameTest {
     }
 
     private boolean makeAllGame(Game<Character> game) throws CloneNotSupportedException {
-        int bWin = 0;
-        int draw = 0;
-        int hWin = 0;
+        AtomicInteger bWin = new AtomicInteger(0);
+        AtomicInteger draw = new AtomicInteger(0);
+        AtomicInteger hWin = new AtomicInteger(0);
+        AtomicInteger i = new AtomicInteger(0);
 
         List<List<int[]>> moves = TicTacToeMoves.generateAllMoveCombinations(5);
 
-        Set<List<int[]>> invalidPrefixes = new HashSet<>();
+        ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+        Set<List<int[]>> invalidPrefixes = Collections.synchronizedSet(new HashSet<>());
 
-        int i = 0;
-        for (List<int[]> move : moves) {
-            Game<Character> newGame = game.clone();
-            boolean isValid = true;
-            for (int j = 1; j <= move.size(); j++) {
-                List<int[]> prefix = move.subList(0, j);
-                if (invalidPrefixes.contains(prefix)) {
-                    isValid = false;
-                    break;
+        executor.execute(() -> {
+            for (List<int[]> move : moves) {
+                Game<Character> newGame;
+                try {
+                    newGame = game.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException(e);
                 }
-            }
-
-            if (!isValid) {
-                continue;
-            }
-
-            for (int j = 0; j < move.size(); j++) {
-                int[] ints = move.get(j);
-
-
-                newGame.makeMove(newGame.getPlayer1().move(newGame), newGame.getPlayer1());
-                System.out.println("Bot Move " + newGame.getBoard());
-
-                if (newGame.playerWin(newGame.getPlayer1())) {
-                    bWin++;
-                    break;
-                } else if (newGame.boardFull()) {
-                    draw++;
-                    break;
+                boolean isValid = true;
+                for (int j = 1; j <= move.size(); j++) {
+                    List<int[]> prefix = move.subList(0, j);
+                    if (invalidPrefixes.contains(prefix)) {
+                        isValid = false;
+                        break;
+                    }
                 }
 
-                System.out.println(ints[0] + " " + ints[1]);
-
-                if (newGame.fieldAvaiable(ints[0], ints[1])) {
-                    newGame.makeMove(ints, newGame.getPlayer2());
-                } else {
-                    System.out.println("Przerwij - pole zajęte");
-
-                    invalidPrefixes.add(new ArrayList<>(move.subList(0, j + 1)));
-                    isValid = false;
-                    break;
+                if (!isValid) {
+                    continue;
                 }
 
-                System.out.println("Player move " + newGame.getBoard());
+                for (int j = 0; j < move.size(); j++) {
+                    int[] ints = move.get(j);
 
-                if (newGame.playerWin(newGame.getPlayer2())) {
-                    hWin++;
-                    break;
-                } else if (newGame.boardFull()) {
-                    draw++;
-                    break;
+                    try {
+                        newGame.makeMove(newGame.getPlayer1().move(newGame), newGame.getPlayer1());
+                    } catch (CloneNotSupportedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.out.println("Bot Move " + newGame.getBoard());
+
+                    if (newGame.playerWin(newGame.getPlayer1())) {
+                        bWin.incrementAndGet();
+                        break;
+                    } else if (newGame.boardFull()) {
+                        draw.incrementAndGet();
+                        break;
+                    }
+
+                    System.out.println(ints[0] + " " + ints[1]);
+
+                    if (newGame.fieldAvaiable(ints[0], ints[1])) {
+                        newGame.makeMove(ints, newGame.getPlayer2());
+                    } else {
+                        System.out.println("Przerwij - pole zajęte");
+
+                        synchronized (invalidPrefixes) {
+                            invalidPrefixes.add(new ArrayList<>(move.subList(0, j + 1)));
+                        }
+                        isValid = false;
+                        break;
+                    }
+
+                    System.out.println("Player move " + newGame.getBoard());
+
+                    if (newGame.playerWin(newGame.getPlayer2())) {
+                        hWin.incrementAndGet();
+                        break;
+                    } else if (newGame.boardFull()) {
+                        draw.incrementAndGet();
+                        break;
+                    }
+                }
+
+                if (isValid) {
+                    i.incrementAndGet();
+                }
+
+                synchronized (System.out) {
+                    System.out.println("Bot : " + bWin);
+                    System.out.println("Draw : " + draw);
+                    System.out.println("Human : " + hWin);
+                    System.out.println(i);
                 }
             }
+        });
+        executor.shutdown();
 
-            if (isValid) {
-                i++;
-            }
-
-            System.out.println("Bot : " + bWin);
-            System.out.println("Draw : " + draw);
-            System.out.println("Human : " + hWin);
-            System.out.println(i);
-        }
 
         System.out.println("Bot : " + bWin);
         System.out.println("Draw : " + draw);
         System.out.println("Human : " + hWin);
-        return bWin/ i == 1;
+        return bWin.get() / (double) i.get() == 1;
     }
 
 
