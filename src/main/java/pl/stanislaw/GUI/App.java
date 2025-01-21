@@ -9,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,6 +20,11 @@ public class App extends Application {
     public Button start;
     @FXML
     public Label label;
+    @FXML
+    public MenuButton botMenu;
+
+    String plyerTyp;
+
 
     private Stage primaryStage;
     @Override
@@ -32,9 +39,19 @@ public class App extends Application {
     }
 
     public void startPressed(ActionEvent actionEvent) throws IOException{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
-        Parent root = fxmlLoader.load();
-        primaryStage =(Stage) ((javafx.scene.Node)actionEvent.getSource()).getScene().getWindow();
+        if(plyerTyp == null){
+            plyerTyp ="a";
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/game.fxml"));
+
+        GameFX controller = new GameFX();
+
+        controller.setGame(plyerTyp);
+
+        loader.setController(controller);
+
+        Parent root = loader.load();
+        primaryStage =(Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -43,5 +60,13 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+
+
+    public void gameTyp(ActionEvent actionEvent) {
+
+        MenuItem item = (MenuItem) actionEvent.getSource();
+        plyerTyp = item.getText();
+        System.out.println(item.getText());
     }
 }

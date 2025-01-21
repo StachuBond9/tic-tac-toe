@@ -1,6 +1,5 @@
 package pl.stanislaw.GUI;
 
-import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,20 +11,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import pl.stanislaw.Board;
-import pl.stanislaw.Game;
-import pl.stanislaw.Player;
+import pl.stanislaw.*;
 
 import java.io.IOException;
 
-
 public class GameFX {
-    private final Game<String> game = new Game<>(new Player<>("Player1", "O"), new Player<>("Player2", "X"), new Board<>(" "));
-    private Player<String> currentPlayer = game.getPlayer1();
+    private Game<String> game;
+
+
     @FXML
     private GridPane board;
     @FXML
@@ -34,57 +31,112 @@ public class GameFX {
     private FlowPane window;
 
     @FXML
-    public void btn(ActionEvent actionEvent) throws InterruptedException, IOException {
-        Button clicked = (Button) actionEvent.getSource();
-        int[] data = {GridPane.getRowIndex(clicked), GridPane.getColumnIndex(clicked)};
-        game.makeMove(data, currentPlayer);
-        clicked.setText(currentPlayer.getType());
-        clicked.setDisable(true);
+    private HBox title;
+    private String playerType;
 
-        if (game.playerWin(currentPlayer)) {
-            label.setText(currentPlayer.getName() + " WIN!!!");
-            setDisable();
-            newGame(actionEvent);
-            return;
+    public void setGame(String type) {
+        playerType = type;
+        if (type.equals("Player O")) {
+            game = new Game<>(new HumanPlayer<>("Player", "O"), new BotPlayer<>("X"), new Board<>(" "));
+        } else if (type.equals("Player X")) {
+            game = new Game<>(new BotPlayer<>("O"), new HumanPlayer<>("Player", "X"), new Board<>(" "));
+        } else {
+            game = new Game<>(new HumanPlayer<>("Player1", "O"), new HumanPlayer<>("Player2", "X"), new Board<>(" "));
         }
-        if (game.boardFull()) {
-            board.setDisable(true);
-            label.setText("DRAW");
-            newGame(actionEvent);
-            return;
+    }
+
+    public void initialize() throws IOException, InterruptedException {
+        if (playerType.equals("Player X")) {
+            makeBotMove();
         }
-
-
-        if (currentPlayer == game.getPlayer1()) {
-            currentPlayer = game.getPlayer2();
-            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
-        } else if (currentPlayer == game.getPlayer2()) {
-            currentPlayer = game.getPlayer1();
-            label.setText("MOVE : " + currentPlayer.getName() + " " + currentPlayer.getType());
-
+        if (!checkForDraw() || !checkForWin()){
+            label.setText("MOVE : " + game.getCurrentPlayer().getName() + " " + game.getCurrentPlayer().getType());
         }
-
 
     }
 
-    private void setDisable() {
-        for (Node child : board.getChildren()) {
-            child.setDisable(true);
+    @FXML
+    public void playerMove(ActionEvent actionEvent) {
+        try {
+            Button clicked = (Button) actionEvent.getSource();
+            int[] data = {GridPane.getRowIndex(clicked), GridPane.getColumnIndex(clicked)};
+            game.makeMove(data, game.getCurrentPlayer());
+            clicked.setText(game.getCurrentPlayer().getType());
+            clicked.setDisable(true);
+
+            if (checkForWin() || checkForDraw()) {
+                newGame(actionEvent);
+                return;
+            }
+
+
+            changePlayer();
+
+            if (game.getCurrentPlayer() instanceof BotPlayer) {
+                makeBotMove();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void makeBotMove() {
+        try {
+            int[] xy;
+            do {
+                xy = game.getCurrentPlayer().move(game);
+            } while (!game.fieldAvaiable(xy[0], xy[1]));
+
+            game.makeMove(xy, game.getCurrentPlayer());
+            Node botMoveNode = getNodeByRowColumn(board, xy[0], xy[1]);
+            if (botMoveNode instanceof Button) {
+                ((Button) botMoveNode).setText(game.getCurrentPlayer().getType());
+                ((Button) botMoveNode).setDisable(true);
+            }
+
+
+            if (checkForWin() || checkForDraw()) {
+                newGame(new ActionEvent());
+                return;
+            }
+
+            changePlayer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void changePlayer() {
+        game.setCurrentPlayer((game.getCurrentPlayer() == game.getPlayer1()) ? game.getPlayer2() : game.getPlayer1());
+        label.setText("MOVE : " + game.getCurrentPlayer().getName() + " " + game.getCurrentPlayer().getType());
+    }
+
+    private boolean checkForWin() {
+        if (game.playerWin(game.getCurrentPlayer())) {
+            label.setText(game.getCurrentPlayer().getName() + " WIN!!!");
+            setDisable();
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkForDraw() {
+        if (game.boardFull()) {
+            board.setDisable(true);
+            label.setText("DRAW");
+            return true;
+        }
+        return false;
     }
 
     private void newGame(ActionEvent actionEvent) throws InterruptedException, IOException {
         Button replay = new Button("Replay");
-        replay.setPrefWidth(board.getPrefWidth() / 4);
-        replay.setPrefHeight(board.getPrefHeight() / 4);
-        StackPane pane = new StackPane(replay);
-        pane.setPrefWidth(board.getPrefWidth());
-        pane.setPrefHeight(board.getPrefHeight());
-        pane.setAlignment(Pos.CENTER);
-        window.getChildren().remove(board);
         replay.setAlignment(Pos.CENTER);
-        window.getChildren().add(pane);
-
+        replay.setFont(new Font(20));
+        replay.setPrefHeight(80);
+        replay.setPrefWidth(150);
+        title.getChildren().add(replay);
         replay.setOnAction(event -> {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
@@ -97,5 +149,24 @@ public class GameFX {
                 e.printStackTrace();
             }
         });
+    }
+
+    private Node getNodeByRowColumn(GridPane gridPane, int row, int column) {
+        for (Node node : gridPane.getChildren()) {
+            Integer rowIndex = GridPane.getRowIndex(node);
+            Integer columnIndex = GridPane.getColumnIndex(node);
+
+            if (rowIndex == null) rowIndex = 0;
+            if (columnIndex == null) columnIndex = 0;
+
+            if (rowIndex == row && columnIndex == column) {
+                return node;
+            }
+        }
+        return null;
+    }
+
+    private void setDisable() {
+        board.getChildren().forEach(node -> node.setDisable(true));
     }
 }
